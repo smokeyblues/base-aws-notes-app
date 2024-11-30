@@ -1,8 +1,8 @@
 {
-  "name": "@monorepo-template/scripts",
+  "name": "@base-aws-notes-app/scripts",
   "version": "0.0.0",
   "dependencies": {
-    "@monorepo-template/core": "*",
+    "@base-aws-notes-app/core": "*",
     "sst": "*"
   },
   "scripts": {
