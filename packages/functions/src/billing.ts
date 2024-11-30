@@ -11,7 +11,7 @@ export const main = Util.handler(async (event) => {
   const stripe = new Stripe(
     // Load our secret key
     Resource.StripeSecretKey.value,
-    { apiVersion: "2024-06-20" }
+    { apiVersion: "2024-11-20.acacia" }
   );
 
   await stripe.charges.create({
