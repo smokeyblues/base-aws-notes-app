@@ -1,4 +1,4 @@
-# Base Motes App hosted on AWS with simple stripe integration
+# Base Notes App hosted on AWS with simple stripe integration
 
 ## SST Demo Notes App
 
