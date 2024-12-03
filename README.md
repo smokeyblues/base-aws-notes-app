@@ -1,74 +1,71 @@
-# Monorepo Template
+# Base Motes App hosted on AWS with simple stripe integration
 
-A template to create a monorepo SST ❍ Ion project.
+## SST Demo Notes App
 
-## Get started
+The [SST Guide](https://sst.dev/guide) is a comprehensive open source tutorial for building and deploying full-stack apps using serverless and React on AWS.
 
-1. Use this template to [create your own repo](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template).
+We create a note taking app from scratch — [**demo.sst.dev**](https://demo.sst.dev)
 
-2. Clone the new repo.
+![Demo App](screenshot.png)
 
-   ```bash
-   git clone MY_APP
-   cd MY_APP
-   ```
+We use React.js, AWS Lambda, API Gateway, DynamoDB, and Cognito. This repo is a full-stack serverless app built with SST.
 
-3. Rename the files in the project to the name of your app. 
+- The `infra/` directory defines our AWS infrastructure.
+- The `packages/functions` directory contains the Lambda functions that power the CRUD API.
+- The `packages/frontend` directory contains the React app.
 
-   ```bash
-   npx replace-in-file '/base-aws-notes-app/g' MY_APP **/*.* --verbose
-   ```
+It's a single-page React app powered by a serverless CRUD API. We also cover how add user authentication, handle file uploads, and process credit card payments with Stripe.
 
-4. Deploy!
+### Prerequisites
 
-   ```bash
-   npm install
-   npx sst deploy
-   ```
+Before you get started:
 
-6. Optionally, enable [_git push to deploy_](https://ion.sst.dev/docs/console/#autodeploy).
+1. [Configure your AWS credentials](https://docs.sst.dev/advanced/iam-credentials#loading-from-a-file)
+2. [Install the SST CLI](https://ion.sst.dev/docs/reference/cli/)
 
-## Usage
+### Usage
 
-This template uses [npm Workspaces](https://docs.npmjs.com/cli/v8/using-npm/workspaces). It has 3 packages to start with and you can add more it.
+Clone this repo.
 
-1. `core/`
+```bash
+git clone https://github.com/sst/notes.git
+```
 
-   This is for any shared code. It's defined as modules. For example, there's the `Example` module.
+Install dependencies.
 
-   ```ts
-   export module Example {
-     export function hello() {
-       return "Hello, world!";
-     }
-   }
-   ```
+```bash
+npm install
+```
 
-   That you can use across other packages using.
+This project uses a secret that we are not checking in to the repo. Make sure to [create one before deploying](https://sst.dev/chapters/handling-secrets-in-sst.html).
 
-   ```ts
-   import { Example } from "@aws-monorepo/core/example";
+```bash
+sst secret set StripeSecretKey <YOUR_STRIPE_SECRET_TEST_KEY>
+```
 
-   Example.hello();
-   ```
+#### Developing Locally
 
-2. `functions/`
+From your project root run:
 
-   This is for your Lambda functions and it uses the `core` package as a local dependency.
+```bash
+npx sst dev
+```
 
-3. `scripts/`
+This will start your frontend and run your functions [Live](https://ion.sst.dev/docs/live/).
 
-    This is for any scripts that you can run on your SST app using the `sst shell` CLI and [`tsx`](https://www.npmjs.com/package/tsx). For example, you can run the example script using:
+#### Deploying to Prod
 
-   ```bash
-   npm run shell src/example.ts
-   ```
+Run this in the project root to deploy it to prod.
 
-### Infrastructure
+```bash
+npx sst deploy --stage production
+```
 
-The `infra/` directory allows you to logically split the infrastructure of your app into separate files. This can be helpful as your app grows.
+Make sure to set your secret for prod as well.
 
-In the template, we have an `api.ts`, and `storage.ts`. These export the created resources. And are imported in the `sst.config.ts`.
+```bash
+sst secret set StripeSecretKey <YOUR_STRIPE_SECRET_TEST_KEY> --stage production
+```
 
 ---
 
