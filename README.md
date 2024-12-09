@@ -1,5 +1,9 @@
 # Base Notes App hosted on AWS with simple stripe integration
 
+This is the template that will be deployed when using the create-sst-aws-app.
+
+This template uses the SST framework and is based on their fantastic guide. 
+
 ## SST Demo Notes App
 
 The [SST Guide](https://sst.dev/guide) is a comprehensive open source tutorial for building and deploying full-stack apps using serverless and React on AWS.
