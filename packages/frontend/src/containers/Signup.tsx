@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Stack from "react-bootstrap/Stack";
 import { useNavigate } from "react-router-dom";
-import { Auth } from "aws-amplify";
+import { Auth, API } from "aws-amplify";
+import { UserType } from "../types/user";
 import { onError } from "../lib/errorLib";
 import { ISignUpResult } from "amazon-cognito-identity-js";
 import { useFormFields } from "../lib/hooksLib";
@@ -34,6 +35,19 @@ export default function Signup() {
     return fields.confirmationCode.length > 0;
   }
 
+  async function createUser(user: UserType) {
+    try {
+      const response = await API.post("users", "/users", {
+        body: user,
+      });
+      return response
+    } catch (error) {
+      // Handle error appropriately, maybe re-throw or return an error object
+      console.log("Error creating user:", error);
+      throw error; // Re-throw the error to allow the caller to handle it
+    }
+  }
+
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setIsLoading(true);
@@ -59,6 +73,13 @@ export default function Signup() {
       await Auth.confirmSignUp(fields.email, fields.confirmationCode);
       await Auth.signIn(fields.email, fields.password);
       userHasAuthenticated(true);
+      await createUser({
+        username: fields.email,
+        email: fields.email,
+        description: "I'm awesome!",
+        profileimg: "",
+        notes: 1,
+      });
       nav("/");
     } catch (e) {
       onError(e);

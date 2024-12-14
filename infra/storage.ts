@@ -5,7 +5,7 @@ export const secret = new sst.Secret("StripeSecretKey");
 // Create an S3 bucket
 export const bucket = new sst.aws.Bucket("Uploads");
 
-// Create the DynamoDB table
+// Create the Notes table
 export const notesTable = new sst.aws.Dynamo("Notes", {
     fields: {
       userId: "string",
@@ -13,3 +13,11 @@ export const notesTable = new sst.aws.Dynamo("Notes", {
     },
     primaryIndex: { hashKey: "userId", rangeKey: "noteId" },
   });
+
+// Create the Users table
+export const usersTable = new sst.aws.Dynamo("Users", {
+  fields: {
+    userId: "string",
+  },
+  primaryIndex: { hashKey: "userId" }
+});
